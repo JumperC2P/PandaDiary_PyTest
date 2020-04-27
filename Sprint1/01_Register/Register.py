@@ -22,7 +22,6 @@ class Register():
         driver.find_element_by_name('confirmPassword').send_keys(user['confirmed_password'])
         if (is_checked):
             driver.find_element_by_name('terms').click()
-        time.sleep(2)
         submit_button = driver.find_element_by_css_selector("button[type='submit']")
         submit_button.click()
         time.sleep(2)
@@ -30,7 +29,6 @@ class Register():
         if (result == "Oops..."):
             result = driver.find_element_by_id('swal2-content').text
             
-        time.sleep(2)
         return result
 
         

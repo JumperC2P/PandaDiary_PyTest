@@ -23,6 +23,12 @@ class RegisterTest(unittest.TestCase):
             'password': '12345678',
             'confirmed_password': '12345678'
         }
+        self.user2 = {
+            'username': 'TestinggG',
+            'email': 'testing2@gmail.com',
+            'password': '12345678',
+            'confirmed_password': '12345678'
+        }
         
         chrome_options = Options()
         
@@ -35,16 +41,8 @@ class RegisterTest(unittest.TestCase):
             chrome_driver_path = driver_path + '/chromedriver'
             firefox_driver_path = driver_path + '/geckodriver'
             self.chrome_driver = webdriver.Chrome(executable_path=((str)(chrome_driver_path)), chrome_options=chrome_options)
-            self.chrome_driver.implicitly_wait(10)
-            self.chrome_driver.get(WEB_URL)
-
             self.firefox_driver = webdriver.Firefox(executable_path=((str)(firefox_driver_path)))
-            self.firefox_driver.implicitly_wait(10)
-            self.firefox_driver.get(WEB_URL)
-
-            # self.safari_driver = webdriver.Safari()
-            # self.safari_driver.implicitly_wait(10)
-            # self.safari_driver.get(WEB_URL)
+            self.safari_driver = webdriver.Safari()
 
 
         self.drivers = {}
@@ -54,7 +52,12 @@ class RegisterTest(unittest.TestCase):
         else:
             self.drivers['Chrome'] = self.chrome_driver
             self.drivers['Firefox'] = self.firefox_driver
-            # self.drivers['Safari'] = self.safari_driver
+            self.drivers['Safari'] = self.safari_driver
+
+        for browser in self.drivers:
+            self.drivers[browser].implicitly_wait(10)
+            self.drivers[browser].get(WEB_URL)
+            self.drivers[browser].set_window_size(1440,1080)
 
 
     def tearDown(self):
@@ -108,12 +111,16 @@ class RegisterTest(unittest.TestCase):
     def test_register_success(self):
         expected = "Registration successful."
         is_first = True
+        is_second = True
         for k in self.drivers:
-            if is_first:
+            if is_first and is_second:
                 user = self.user
                 is_first = False
-            else:
+            elif is_second:
                 user = self.user1
+                is_second = False
+            else: 
+                user = self.user2
 
             result = self.register_success(self.drivers[k], user)
             self.assertEqual(expected, result)
