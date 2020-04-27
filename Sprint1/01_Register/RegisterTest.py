@@ -1,4 +1,4 @@
-import unittest;
+import unittest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import pathlib
@@ -25,24 +25,36 @@ class RegisterTest(unittest.TestCase):
         }
         
         chrome_options = Options()
-        self.chrome_driver = webdriver.Chrome(executable_path=((str)(pathlib.Path().absolute()))+'/chromedriver', chrome_options=chrome_options)
-        self.chrome_driver.implicitly_wait(10)
-        self.chrome_driver.get(WEB_URL)
+        
+        if (platform.system() == 'Windows'):
+            self.edge_driver = webdriver.Edge()
+            self.edge_driver.implicitly_wait(10)
+            self.edge_driver.get(WEB_URL)
+        else:
+            driver_path = ((str)(pathlib.Path().absolute())) + '/linux_driver'
+            chrome_driver_path = driver_path + '/chromedriver'
+            firefox_driver_path = driver_path + '/geckodriver'
+            self.chrome_driver = webdriver.Chrome(executable_path=(str)(chrome_driver_path), chrome_options=chrome_options)
+            self.chrome_driver.implicitly_wait(10)
+            self.chrome_driver.get(WEB_URL)
 
-        self.firefox_driver = webdriver.Firefox(executable_path=((str)(pathlib.Path().absolute()))+'/geckodriver')
-        self.firefox_driver.implicitly_wait(10)
-        self.firefox_driver.get(WEB_URL)
+            self.firefox_driver = webdriver.Firefox(executable_path=(str)(firefox_driver_path))
+            self.firefox_driver.implicitly_wait(10)
+            self.firefox_driver.get(WEB_URL)
 
-        self.drivers = {
-            'Chrome': self.chrome_driver,
-            'Firefox': self.firefox_driver
-        }
+            self.safari_driver = webdriver.Safari()
+            self.safari_driver.implicitly_wait(10)
+            self.safari_driver.get(WEB_URL)
+
+
+        self.drivers = {}
 
         if (platform.system() == 'Windows'):
-            self.ie_driver = webdriver.Firefox(executable_path=((str)(pathlib.Path().absolute()))+'/IEDriverServer.exe')
-            self.ie_driver.implicitly_wait(10)
-            self.ie_driver.get(WEB_URL)
-            self.drivers['IE'] = self.ie_driver
+            self.drivers['Edge'] = self.edge_driver
+        else:
+            self.drivers['Chrome'] = self.chrome_driver
+            self.drivers['Firefox'] = self.firefox_driver
+            self.drivers['Safari'] = self.safari_driver
 
 
     def tearDown(self):
@@ -69,6 +81,7 @@ class RegisterTest(unittest.TestCase):
         return Register().start(driver, user, True)
 
     def test_register_no_capital_name(self):
+        print(platform.system())
         expected = "Please make sure details you've entered are correct!"
         for k in self.drivers:
             result = self.register_no_capital_name(self.drivers[k])
