@@ -34,17 +34,17 @@ class RegisterTest(unittest.TestCase):
             driver_path = ((str)(pathlib.Path().absolute())) + '/linux_driver'
             chrome_driver_path = driver_path + '/chromedriver'
             firefox_driver_path = driver_path + '/geckodriver'
-            self.chrome_driver = webdriver.Chrome(executable_path=(str)(chrome_driver_path), chrome_options=chrome_options)
+            self.chrome_driver = webdriver.Chrome(executable_path=((str)(chrome_driver_path)), chrome_options=chrome_options)
             self.chrome_driver.implicitly_wait(10)
             self.chrome_driver.get(WEB_URL)
 
-            self.firefox_driver = webdriver.Firefox(executable_path=(str)(firefox_driver_path))
+            self.firefox_driver = webdriver.Firefox(executable_path=((str)(firefox_driver_path)))
             self.firefox_driver.implicitly_wait(10)
             self.firefox_driver.get(WEB_URL)
 
-            self.safari_driver = webdriver.Safari()
-            self.safari_driver.implicitly_wait(10)
-            self.safari_driver.get(WEB_URL)
+            # self.safari_driver = webdriver.Safari()
+            # self.safari_driver.implicitly_wait(10)
+            # self.safari_driver.get(WEB_URL)
 
 
         self.drivers = {}
@@ -54,7 +54,7 @@ class RegisterTest(unittest.TestCase):
         else:
             self.drivers['Chrome'] = self.chrome_driver
             self.drivers['Firefox'] = self.firefox_driver
-            self.drivers['Safari'] = self.safari_driver
+            # self.drivers['Safari'] = self.safari_driver
 
 
     def tearDown(self):
