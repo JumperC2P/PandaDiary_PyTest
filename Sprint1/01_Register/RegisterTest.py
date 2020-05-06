@@ -63,7 +63,6 @@ class RegisterTest(unittest.TestCase):
     def tearDown(self):
         for k in self.drivers:
             self.drivers[k].close()
-        return super().tearDown()
 
     def register_no_capital_name(self, driver):
         self.user['username'] = 'testing'
