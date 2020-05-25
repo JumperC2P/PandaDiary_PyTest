@@ -15,6 +15,10 @@ class LoginTest(unittest.TestCase):
             'email': 'test@gmail.com',
             'password': '12345678',
         }
+        self.admin = {
+            'email': 'zbhu7e9u@gmail.com',
+            'password': '12345678'
+        }
 
         chrome_options = Options()
 
@@ -49,10 +53,16 @@ class LoginTest(unittest.TestCase):
         for k in self.drivers:
             self.drivers[k].close()
 
-    def test_login(self):
+    def test_login_customer(self):
         expected = "Personal Information"
         for k in self.drivers:
-            result = Login().start(self.drivers[k], self.user)
+            result = Login().start_customer(self.drivers[k], self.user)
+            self.assertEqual(expected, result)
+
+    def test_login_admin(self):
+        expected = "Panda Diary Management System"
+        for k in self.drivers:
+            result = Login().start_admin(self.drivers[k], self.admin)
             self.assertEqual(expected, result)
 
 
