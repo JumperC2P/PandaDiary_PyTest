@@ -5,7 +5,7 @@ import pathlib
 from Register import Register
 import platform
 
-WEB_URL = "https://pandadiary-275703.ts.r.appspot.com/login"
+WEB_URL = "https://localhost:3000/login"
 
 class RegisterTest(unittest.TestCase):
 
