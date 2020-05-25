@@ -168,7 +168,6 @@ class DiaryParams:
         time.sleep(3)
 
         # go to diary management
-        diary_link = driver.find_element_by_xpath('//a[@href="/admin/diary"]')
         try:
             diary_link = driver.find_element_by_xpath('//a[@href="/admin/diary"]')
         except:

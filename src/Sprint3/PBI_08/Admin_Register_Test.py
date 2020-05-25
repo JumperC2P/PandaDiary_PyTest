@@ -2,18 +2,36 @@ import unittest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import pathlib
-from DiaryParams import DiaryParams
+from Admin_Register import Admin_Register
 import platform
 
 WEB_URL = "http://localhost:3000/"
 
 
-class DiaryParamsTest(unittest.TestCase):
+class Admin_Register_Test(unittest.TestCase):
 
     def setUp(self):
         self.admin = {
             'email': 'zbhu7e9u@gmail.com',
             'password': '12345678'
+        }
+        self.new_user = {
+            'username': 'TestingAdmin',
+            'email': 'testing_admin@gmail.com',
+            'password': '12345678',
+            'confirmed_password': '12345678'
+        }
+        self.new_user1 = {
+            'username': 'TestinggA',
+            'email': 'testing1_a@gmail.com',
+            'password': '12345678',
+            'confirmed_password': '12345678'
+        }
+        self.new_user2 = {
+            'username': 'TestinggGA',
+            'email': 'testing2_a@gmail.com',
+            'password': '12345678',
+            'confirmed_password': '12345678'
         }
 
         chrome_options = Options()
@@ -49,22 +67,21 @@ class DiaryParamsTest(unittest.TestCase):
         for k in self.drivers:
             self.drivers[k].close()
 
-    def test_add_params(self):
-        expected = 3
+    def test_register_admin(self):
+        expected = "Add admin successful."
+        is_first = True
+        is_second = True
         for k in self.drivers:
-            result = DiaryParams().start_add(self.drivers[k], self.admin, 'Test')
-            self.assertEqual(expected, result)
+            if is_first and is_second:
+                user = self.new_user
+                is_first = False
+            elif is_second:
+                user = self.new_user1
+                is_second = False
+            else: 
+                user = self.new_user2
 
-    def test_delete_params(self):
-        expected = 3
-        for k in self.drivers:
-            result = DiaryParams().start_delete(self.drivers[k], self.admin)
-            self.assertEqual(expected, result)
-
-    def test_recover_params(self):
-        expected = 3
-        for k in self.drivers:
-            result = DiaryParams().start_recover(self.drivers[k], self.admin)
+            result = Admin_Register().start(self.drivers[k], self.admin, user)
             self.assertEqual(expected, result)
 
 
