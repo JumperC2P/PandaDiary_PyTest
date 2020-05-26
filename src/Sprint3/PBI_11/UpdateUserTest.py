@@ -2,21 +2,21 @@ import unittest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import pathlib
-from BlockAndActive import BlockAndActive
+from UpdateUser import UpdateUser
 import platform
 
 WEB_URL = "http://localhost:3000/"
 
 
-class BlockAndActiveTest(unittest.TestCase):
+class UpdateUserTest(unittest.TestCase):
 
     def setUp(self):
         self.admin = {
             'email': 'zbhu7e9u@gmail.com',
             'password': '12345678'
         }
-        self.user1 = 'c0003' # -ba-btn
-        self.user2 = 'a0002'
+        self.user1 = 'c0003'
+        self.user2 = 'c0004'
         self.user3 = 'c0005'
 
         chrome_options = Options()
@@ -29,9 +29,9 @@ class BlockAndActiveTest(unittest.TestCase):
             driver_path = (str(pathlib.Path().absolute())) + '/linux_driver'
             chrome_driver_path = driver_path + '/chromedriver'
             firefox_driver_path = driver_path + '/geckodriver'
-            self.chrome_driver = webdriver.Chrome(executable_path=((str)(chrome_driver_path)),
-                                                  chrome_options=chrome_options)
-            self.firefox_driver = webdriver.Firefox(executable_path=((str)(firefox_driver_path)))
+            # self.chrome_driver = webdriver.Chrome(executable_path=((str)(chrome_driver_path)),
+            #                                       chrome_options=chrome_options)
+            # self.firefox_driver = webdriver.Firefox(executable_path=((str)(firefox_driver_path)))
             self.safari_driver = webdriver.Safari()
 
         self.drivers = {}
@@ -39,8 +39,8 @@ class BlockAndActiveTest(unittest.TestCase):
         if platform.system() == 'Windows':
             self.drivers['Edge'] = self.edge_driver
         else:
-            self.drivers['Chrome'] = self.chrome_driver
-            self.drivers['Firefox'] = self.firefox_driver
+            # self.drivers['Chrome'] = self.chrome_driver
+            # self.drivers['Firefox'] = self.firefox_driver
             self.drivers['Safari'] = self.safari_driver
 
         for browser in self.drivers:
@@ -52,8 +52,8 @@ class BlockAndActiveTest(unittest.TestCase):
         for k in self.drivers:
             self.drivers[k].close()
 
-    def test_block_or_active(self):
-        expected = "You block the user."
+    def test_update_user(self):
+        expected = "Update the user successfully."
         is_first = True
         is_second = True
         for k in self.drivers:
@@ -66,7 +66,7 @@ class BlockAndActiveTest(unittest.TestCase):
             else: 
                 user = self.user3
 
-            result = BlockAndActive().start(self.drivers[k], self.admin, user)
+            result = UpdateUser().start(self.drivers[k], self.admin, user)
             self.assertEqual(expected, result)
 
 
