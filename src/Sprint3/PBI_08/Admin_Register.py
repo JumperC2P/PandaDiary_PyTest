@@ -20,7 +20,7 @@ class Admin_Register:
 
         time.sleep(3)
 
-         # go to diary management
+        # go to diary management
         try:
             user_link = driver.find_element_by_xpath('//a[@href="/admin/user"]')
         except:
